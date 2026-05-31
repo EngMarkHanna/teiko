@@ -18,20 +18,26 @@ else
     STREAMLIT := .venv/bin/streamlit
 endif
 
-# Create the virtual environment and install dependencies.
-setup:
+VENV_MARKER := .venv/.installed
+
+# Create the virtual environment and install dependencies. The marker keeps
+# pipeline/dashboard from reinstalling packages if setup already ran.
+setup: $(VENV_MARKER)
+
+$(VENV_MARKER): requirements.txt
 	$(VENV_PY) -m venv .venv
 	$(PY) -m pip install --upgrade pip
 	$(PIP) install -r requirements.txt
+	$(PY) -c "from pathlib import Path; Path('.venv/.installed').touch()"
 
 # Build the DB (Part 1) then run all analyses (Parts 2-4).
-pipeline:
+pipeline: setup
 	$(PY) load_data.py
 	$(PY) run_pipeline.py
 
 # Start the dashboard. headless=true skips the first-run email prompt; 0.0.0.0
 # lets Codespaces forward the port.
-dashboard:
+dashboard: setup
 	$(STREAMLIT) run dashboard.py --server.headless true --server.address 0.0.0.0
 
 # Remove generated artifacts (cross-platform via Python).
