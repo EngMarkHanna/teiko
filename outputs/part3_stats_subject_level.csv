@@ -1,0 +1,6 @@
+population,n_responder,n_non_responder,median_responder,median_non_responder,u_statistic,p_value,p_bonferroni,significant_p05,significant_bonferroni
+b_cell,331,325,9.6714,9.8446,51499.0,0.34579575361837356,1.0,False,False
+cd8_t_cell,331,325,24.8969,25.0097,52591.0,0.6221436939857599,1.0,False,False
+cd4_t_cell,331,325,30.2098,29.8225,59855.0,0.012422106237428324,0.06211053118714162,True,False
+nk_cell,331,325,14.7397,14.9598,50081.0,0.12674471572310064,0.6337235786155032,False,False
+monocyte,331,325,19.7945,20.2768,51079.0,0.26449173372700063,1.0,False,False

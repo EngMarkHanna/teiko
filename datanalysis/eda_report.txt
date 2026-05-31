@@ -1,0 +1,146 @@
+========================================================================
+SHAPE & COLUMNS
+========================================================================
+rows: 10500 | cols: 15
+columns: ['project', 'subject', 'condition', 'age', 'sex', 'treatment', 'response', 'sample', 'sample_type', 'time_from_treatment_start', 'b_cell', 'cd8_t_cell', 'cd4_t_cell', 'nk_cell', 'monocyte']
+
+dtypes:
+project                        str
+subject                        str
+condition                      str
+age                          int64
+sex                            str
+treatment                      str
+response                       str
+sample                         str
+sample_type                    str
+time_from_treatment_start    int64
+b_cell                       int64
+cd8_t_cell                   int64
+cd4_t_cell                   int64
+nk_cell                      int64
+monocyte                     int64
+
+========================================================================
+CATEGORICAL VALUE COUNTS
+========================================================================
+
+[project]
+project
+prj1    4500
+prj2    3000
+prj3    3000
+
+[condition]
+condition
+melanoma     5175
+carcinoma    3903
+healthy      1422
+
+[sex]
+sex
+M    5430
+F    5070
+
+[treatment]
+treatment
+miraclib     4695
+phauximab    4383
+none         1422
+
+[response]
+response
+yes    4611
+no     4467
+NaN    1422
+
+[sample_type]
+sample_type
+PBMC    7500
+WB      3000
+
+[time_from_treatment_start]
+time_from_treatment_start
+0     3500
+7     3500
+14    3500
+
+========================================================================
+MISSING VALUES (only non-zero shown)
+========================================================================
+response    1422
+
+Note: 'response' missing is expected for non-treated / healthy subjects.
+
+========================================================================
+RELATIONAL INTEGRITY (supports the 4-table schema)
+========================================================================
+unique projects: 3
+unique subjects: 3500
+unique samples : 10500 | total rows: 10500 -> sample is unique
+subjects spanning >1 project: 0
+subjects whose demographic attrs vary across their samples: 0
+=> subject-level columns can live in a `subjects` table without duplication
+any negative cell counts: False
+
+========================================================================
+PART 2  -  relative frequency summary (sample/total_count/population/count/percentage)
+========================================================================
+rows in long table: 52500 (= 10500 samples x 5 pops)
+
+head:
+     sample  total_count population  count  percentage
+sample00000        93214     b_cell  10908     11.7021
+sample00001       100824     b_cell   6777      6.7216
+sample00002        92822     b_cell   9794     10.5514
+sample00003        93160     b_cell  10081     10.8212
+sample00004       107903     b_cell   4372      4.0518
+sample00005       105359     b_cell  15431     14.6461
+sample00006        99774     b_cell   5897      5.9104
+sample00007        98424     b_cell  10403     10.5696
+sample00008        90353     b_cell   8829      9.7717
+sample00009        95821     b_cell   7650      7.9836
+
+per-sample percentage sum  -> min: 100.0 max: 100.0 (should be 100)
+
+========================================================================
+PART 3  -  melanoma & miraclib & PBMC : responders vs non-responders
+========================================================================
+cohort samples: 1968
+  responder samples: 993
+  non-responder samples: 975
+
+Mann-Whitney U (two-sided) per population, on percentage:
+    population    med_R   med_NR          U      p_value   sig?
+        b_cell     9.43     9.79   459968.0    5.567e-02     no
+    cd8_t_cell    24.73    24.60   478175.5    6.391e-01     no
+    cd4_t_cell    30.22    29.66   515277.5    1.334e-02    YES
+       nk_cell    14.51    14.80   464546.5    1.211e-01     no
+      monocyte    19.61    19.94   466509.0    1.631e-01     no
+
+SIGNIFICANT (p<0.05): ['cd4_t_cell']
+
+[boxplot saved -> datanalysis/fig_part3_boxplots.png]
+
+========================================================================
+PART 4  -  melanoma PBMC baseline (time=0) miraclib
+========================================================================
+samples in subset: 656
+
+samples per project:
+project
+prj1    384
+prj3    272
+
+unique subjects: 656
+subjects by response:
+response
+yes    331
+no     325
+subjects by sex:
+sex
+M    344
+F    312
+
+melanoma MALES, responders, t=0  -> n samples: 184
+AVERAGE B CELLS (XXX.XX): 10401.28
