@@ -29,12 +29,11 @@ drifts.
 > of the Python standard library (`sqlite3`); the database is simply the file
 > `cell_count.db` created on first connect.
 
-**Dashboard link:** [local/Codespaces dashboard](http://localhost:8501) after
-running `make dashboard`. In Codespaces, open the forwarded port 8501.
+**Dashboard (live):** https://teikotechnicalmarkhanna.streamlit.app/
 
-For the final public submission link, deploy this repo on
-[Streamlit Community Cloud](https://streamlit.io/cloud) with `dashboard.py` as the
-entrypoint, then replace the local link above with the deployed app URL.
+The same dashboard runs locally with `make dashboard` (or
+`.venv\Scripts\streamlit run dashboard.py` on Windows); open the printed
+`localhost:8501`. In Codespaces, open the forwarded port 8501.
 
 ---
 
